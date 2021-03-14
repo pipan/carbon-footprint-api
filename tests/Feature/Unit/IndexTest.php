@@ -16,7 +16,7 @@ class IndexTest extends TestCase
 
         $this->unitRepository = new UnitRepositoryMock();
 
-        $this->app->instance(UnitRepository::class, $this->unitRepository);
+        $this->instance(UnitRepository::class, $this->unitRepository);
     }
 
     public function testResponseEmpty()

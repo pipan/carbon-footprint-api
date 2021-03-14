@@ -17,7 +17,8 @@ class UnitSeeder extends Seeder
             [ 'name' => 'Power' ],
             [ 'name' => 'Time' ],
             [ 'name' => 'Energy' ],
-            [ 'name' => 'Value' ]
+            [ 'name' => 'Value' ],
+            [ 'name' => 'Carbon' ]
         ]);
 
         DB::table('unit_scales')->insert([
@@ -181,6 +182,30 @@ class UnitSeeder extends Seeder
                 'label' => '',
                 'unit_id' => 8,
                 'multiplier' => 1,
+                'devider' => 1
+            ],
+            [
+                'label' => 'mg_co2',
+                'unit_id' => 9,
+                'multiplier' => 1,
+                'devider' => 1
+            ],
+            [
+                'label' => 'g_co2',
+                'unit_id' => 9,
+                'multiplier' => 1000,
+                'devider' => 1
+            ],
+            [
+                'label' => 'kg_co2',
+                'unit_id' => 9,
+                'multiplier' => 1000000,
+                'devider' => 1
+            ],
+            [
+                'label' => 't_co2',
+                'unit_id' => 9,
+                'multiplier' => 1000000000,
                 'devider' => 1
             ],
         ]);

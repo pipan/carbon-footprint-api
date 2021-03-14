@@ -18,11 +18,16 @@ class SearchTest extends TestCase
         $this->modelRepository->withSearch('one', [
             [
                 'id' => 1,
-                'name' => 'one'
+                'name' => 'one',
+                'inputs' => [],
+                'components' => [
+                    "type" => 'stack',
+                    "items" => []
+                ]
             ]
         ]);
 
-        $this->app->instance(ModelRepository::class, $this->modelRepository);
+        $this->instance(ModelRepository::class, $this->modelRepository);
     }
 
     public function testResponseMissingQuery()

@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Model;
 
-use App\Repository\UnitRepository;
+use App\Repository\ModelRepository;
 use Tests\Mock\ModelRepositoryMock;
-use Tests\Mock\UnitRepositoryMock;
 use Tests\TestCase;
 
 class GetTest extends TestCase
@@ -21,7 +20,7 @@ class GetTest extends TestCase
             'name' => 'test'
         ]);
 
-        $this->app->instance(ModelRepository::class, $this->modelRepository);
+        $this->instance(ModelRepository::class, $this->modelRepository);
     }
 
     public function testResponse()
@@ -39,8 +38,7 @@ class GetTest extends TestCase
     {
         $response = $this->get('/api/model/2');
 
-        $response->assertStatus(404)
-            ->assertJson([
+        $response->assertJson([
                 'message' => 'Resource not found'
             ]);
     }

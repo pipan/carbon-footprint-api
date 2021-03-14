@@ -26,6 +26,7 @@ class EloquentModelRepository implements ModelRepository
         }
         $models = Model::with(['inputs', 'inputs.unit'])
             ->where('name', 'like', "%" . $query . "%")
+            ->where($options['filters'] ?? [])
             ->skip($skip)
             ->take($limit)
             ->get();
