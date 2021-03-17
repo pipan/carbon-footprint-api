@@ -6,5 +6,5 @@ interface ModelRepository
 {
     public function get($id);
     public function search($query, $options);
-    public function searchCount($query);
+    public function searchCount($query, $options);
 }

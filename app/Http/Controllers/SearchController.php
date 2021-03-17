@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Evaluate\EvalService;
 use App\Http\Controllers\Controller;
+use App\ModelService;
 use App\Repository\ModelRepository;
 use App\ResponseError;
 use Illuminate\Http\Request;
@@ -12,12 +13,12 @@ use Illuminate\Support\Facades\Validator;
 class SearchController extends Controller
 {
     private $modelRepository;
-    private $evalService;
+    private $modelService;
 
-    public function __construct(ModelRepository $modelRepository, EvalService $evalService)
+    public function __construct(ModelRepository $modelRepository, ModelService $modelService)
     {
         $this->modelRepository = $modelRepository;
-        $this->evalService = $evalService;
+        $this->modelService = $modelService;
     }
 
     public function __invoke(Request $request)
@@ -44,20 +45,17 @@ class SearchController extends Controller
         ];
 
         $models = [];
-        $total = $this->modelRepository->searchCount($request->input('query'));
+        $total = $this->modelRepository->searchCount($request->input('query'), $options);
         if ($total > 0) {
             $models = $this->modelRepository->search($request->input('query'), $options);
         }
 
         foreach ($models as &$model) {
-            $evalInputs = [];
-            foreach ($model['inputs'] as $input) {
-                $evalInputs[$input['name']] = $input['default_value'];
+            $result = $this->modelService->eval($model);
+            $model['eval'] = $result['eval'];
+            foreach ($model['components'] as &$component) {
+                $component['eval'] = $result['components'][$component['id']];
             }
-            $model['carbon'] = $this->evalService->eval([
-                'inputs' => $evalInputs,
-                'schema' => $model['components']
-            ]);
         }
         
         return response([

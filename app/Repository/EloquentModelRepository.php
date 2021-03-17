@@ -8,7 +8,7 @@ class EloquentModelRepository implements ModelRepository
 {
     public function get($id)
     {
-        $model = Model::with(['inputs', 'inputs.unit'])
+        $model = Model::with(['inputs', 'components', 'inputs.unit'])
             ->where('id', $id)
             ->first();
         if (!$model) {
@@ -24,7 +24,7 @@ class EloquentModelRepository implements ModelRepository
         if (isset($options['page'])) {
             $skip = $limit * max(0, $options['page'] - 1);
         }
-        $models = Model::with(['inputs', 'inputs.unit'])
+        $models = Model::with(['inputs', 'components', 'inputs.unit'])
             ->where('name', 'like', "%" . $query . "%")
             ->where($options['filters'] ?? [])
             ->skip($skip)
@@ -33,8 +33,10 @@ class EloquentModelRepository implements ModelRepository
         return $models->toArray();
     }
 
-    public function searchCount($query)
+    public function searchCount($query, $options)
     {
-        return Model::where('name', 'like', "%" . $query . "%")->count();
+        return Model::where('name', 'like', "%" . $query . "%")
+            ->where($options['filters'] ?? [])
+            ->count();
     }
 }

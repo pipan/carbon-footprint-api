@@ -4,15 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModelsTable extends Migration
+class CreateComponentsTable extends Migration
 {
     public function up()
     {
-        Schema::create('models', function (Blueprint $table) {
+        Schema::create('components', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('model_id')->unsigned();
             $table->integer('output_unit_id')->unsigned();
-            $table->text('description');
+            $table->json('schema');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ class CreateModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('models');
+        Schema::dropIfExists('components');
     }
 }

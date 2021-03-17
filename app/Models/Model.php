@@ -9,8 +9,7 @@ class Model extends EloquentModel
     protected $fillable = [
         'name',
         'output_unit_id',
-        'description',
-        'components'
+        'description'
     ];
 
     protected $hidden = [
@@ -18,12 +17,13 @@ class Model extends EloquentModel
         'updated_at'
     ];
 
-    protected $casts = [
-        'components' => 'array',
-    ];
-
     public function inputs()
     {
         return $this->hasMany(Input::class);
+    }
+
+    public function components()
+    {
+        return $this->hasMany(Component::class);
     }
 }
