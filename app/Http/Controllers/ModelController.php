@@ -7,6 +7,7 @@ use App\ModelService;
 use App\Repository\ModelRepository;
 use App\ResponseError;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ModelController extends Controller
 {
@@ -36,5 +37,48 @@ class ModelController extends Controller
             $input['value'] = $request->input($input['name'], $input['default_value']);
         }
         return response($model);
+    }
+
+    public function create(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['bail', 'required'],
+            'description' => ['bail', 'required'],
+            'inputs' => ['bail', 'present', 'array'],
+            'components' => ['bail', 'present', 'array']
+        ]);
+        if ($validator->fails()) {
+            return ResponseError::invalidRequest($validator->errors());
+        }
+        
+        $this->modelRepository->insert($request->all());
+        return response([]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $data = $request->all();
+        if (empty($data)) {
+            return ResponseError::invalidRequest([
+                'request' => 'Empty payload'
+            ]);
+        }
+        $validator = Validator::make($data, [
+            'name' => ['bail', 'nullable', 'filled'],
+            'description' => ['bail', 'nullable', 'filled'],
+            'inputs' => ['bail', 'nullable', 'array'],
+            'components' => ['bail', 'nullable', 'array']
+        ]);
+        if ($validator->fails()) {
+            return ResponseError::invalidRequest($validator->errors());
+        }
+
+        $model = $this->modelRepository->get($id);
+        if (!$model) {
+            return ResponseError::resourceNotFound();
+        }
+
+        $this->modelRepository->update($id, $request->all());
+        return response([]);
     }
 }

@@ -33,6 +33,7 @@ class ModelService
             $result['eval'] += $result['components'][$component['id']];
         }
         
+        
         return $result;
     }
 }

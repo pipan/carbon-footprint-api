@@ -21,8 +21,14 @@ class SearchTest extends TestCase
                 'name' => 'one',
                 'inputs' => [],
                 'components' => [
-                    "type" => 'stack',
-                    "items" => []
+                    [
+                        'id' => 1,
+                        'name' => 'component #1',
+                        'schema' => [
+                            "type" => 'stack',
+                            "items" => []
+                        ]
+                    ]
                 ]
             ]
         ]);

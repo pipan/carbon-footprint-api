@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\Model;
+use Illuminate\Support\Facades\Log;
 
 class EloquentModelRepository implements ModelRepository
 {
@@ -38,5 +39,21 @@ class EloquentModelRepository implements ModelRepository
         return Model::where('name', 'like', "%" . $query . "%")
             ->where($options['filters'] ?? [])
             ->count();
+    }
+
+    public function insert($data)
+    {
+        $model = new Model($data);
+        $model->save();
+        return $model->toArray();
+    }
+
+    public function update($id, $data)
+    {
+        Log::debug("id " . $id);
+        $model = Model::find($id);
+        $model->fill($data);
+        $model->save();
+        return $model->toArray();
     }
 }

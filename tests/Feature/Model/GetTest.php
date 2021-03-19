@@ -17,7 +17,9 @@ class GetTest extends TestCase
         $this->modelRepository = new ModelRepositoryMock();
         $this->modelRepository->withGet(1, [
             'id' => 1,
-            'name' => 'test'
+            'name' => 'test',
+            'inputs' => [],
+            'components' => []
         ]);
 
         $this->instance(ModelRepository::class, $this->modelRepository);
