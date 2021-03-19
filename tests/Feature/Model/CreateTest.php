@@ -79,7 +79,13 @@ class CreateTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-            ->assertJson([]);
+            ->assertJson([
+                'id' => 1,
+                'name' => 'Test',
+                'description' => 'Some description',
+                'inputs' => [],
+                'components' => []
+            ]);
 
         $inserts = $this->modelRepository->getInserts();
         $this->assertCount(1, $inserts);

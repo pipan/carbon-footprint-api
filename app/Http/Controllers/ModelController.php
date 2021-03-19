@@ -51,8 +51,8 @@ class ModelController extends Controller
             return ResponseError::invalidRequest($validator->errors());
         }
         
-        $this->modelRepository->insert($request->all());
-        return response([]);
+        $model = $this->modelRepository->insert($request->all());
+        return response($model);
     }
 
     public function update($id, Request $request)
