@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Models\Model;
-use Illuminate\Support\Facades\Log;
 
 class EloquentModelRepository implements ModelRepository
 {
@@ -45,15 +44,23 @@ class EloquentModelRepository implements ModelRepository
     {
         $model = new Model($data);
         $model->save();
+        $model->inputs()->createMany($data['inputs']);
+        $model->components()->createMany($data['components']);
         return $model->toArray();
     }
 
     public function update($id, $data)
     {
-        Log::debug("id " . $id);
         $model = Model::find($id);
         $model->fill($data);
         $model->save();
+
+        $model->inputs()->delete();
+        $model->inputs()->createMany($data['inputs']);
+
+        $model->components()->delete();
+        $model->components()->createMany($data['components']);
+
         return $model->toArray();
     }
 }

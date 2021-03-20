@@ -51,7 +51,9 @@ class UpdateTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-            ->assertJson([]);
+            ->assertJson([
+                'name' => 'Test'
+            ]);
 
         $updates = $this->modelRepository->getUpdates();
         $this->assertCount(1, $updates);

@@ -157,7 +157,7 @@ class UnitSeeder extends Seeder
             [
                 'label' => 'd',
                 'unit_id' => 6,
-                'multiplier' => 14400,
+                'multiplier' => 86400,
                 'devider' => 1
             ],
             [

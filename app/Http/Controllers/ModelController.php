@@ -78,7 +78,7 @@ class ModelController extends Controller
             return ResponseError::resourceNotFound();
         }
 
-        $this->modelRepository->update($id, $request->all());
-        return response([]);
+        $model = $this->modelRepository->update($id, $request->all());
+        return response($model);
     }
 }
