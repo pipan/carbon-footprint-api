@@ -3,6 +3,7 @@
 namespace App\Evaluate\Evaluators;
 
 use App\Evaluate\Operations\AddOperation;
+use App\Evaluate\Operations\DevideOperation;
 use App\Evaluate\Operations\MultiplyOperation;
 
 class OperationEvaluator implements Evaluator
@@ -13,7 +14,8 @@ class OperationEvaluator implements Evaluator
     {
         $this->operations = [
             '*' => new MultiplyOperation(),
-            '+' => new AddOperation()
+            '+' => new AddOperation(),
+            '/' => new DevideOperation()
         ];
     }
 

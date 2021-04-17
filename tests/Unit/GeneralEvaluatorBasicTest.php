@@ -109,6 +109,20 @@ class GeenralEvaluatorBasicTest extends TestCase
         $this->assertEquals(6, $value);
     }
 
+    public function testDevideConstatnts()
+    {
+        $value = $this->eval->eval([
+            'type' => 'stack',
+            'items' => [
+                "constant:5",
+                "/",
+                "constant:2"
+            ]
+            ], new Context([], []));
+        
+        $this->assertEquals(2.5, $value);
+    }
+
     public function testCombination()
     {
         $context = new Context([
