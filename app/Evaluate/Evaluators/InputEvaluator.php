@@ -2,25 +2,18 @@
 
 namespace App\Evaluate\Evaluators;
 
-class Input implements Evaluator
+class InputEvaluator implements Evaluator
 {
-    private $inputs;
-
-    public function __construct($inputs)
-    {
-        $this->inputs = $inputs;
-    }
-
-    public function eval($schema)
+    public function eval($schema, Context $context)
     {
         $name = $this->getName($schema);
-        return $this->inputs[$name];
+        return $context->getInput($name);
     }
 
     private function getName($schema)
     {
         if (is_array($schema)) {
-            return $schema['name'];
+            return $schema['reference'];
         }
         $parts = explode(":", $schema);
         return $parts[1];

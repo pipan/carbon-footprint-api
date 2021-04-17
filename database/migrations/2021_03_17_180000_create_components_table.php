@@ -12,7 +12,6 @@ class CreateComponentsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('model_id')->unsigned();
-            $table->integer('output_unit_id')->unsigned();
             $table->json('schema');
             $table->timestamps();
         });

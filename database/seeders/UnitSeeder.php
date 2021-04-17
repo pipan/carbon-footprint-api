@@ -77,9 +77,27 @@ class UnitSeeder extends Seeder
                 'devider' => 1
             ],
             [
+                'label' => 'ml',
+                'unit_id' => 3,
+                'multiplier' => 1000,
+                'devider' => 1
+            ],
+            [
                 'label' => 'cm3',
                 'unit_id' => 3,
                 'multiplier' => 1000,
+                'devider' => 1
+            ],
+            [
+                'label' => 'dl',
+                'unit_id' => 3,
+                'multiplier' => 100000,
+                'devider' => 1
+            ],
+            [
+                'label' => 'l',
+                'unit_id' => 3,
+                'multiplier' => 1000000,
                 'devider' => 1
             ],
             [
@@ -90,6 +108,12 @@ class UnitSeeder extends Seeder
             ],
             [
                 'label' => 'm3',
+                'unit_id' => 3,
+                'multiplier' => 1000000000,
+                'devider' => 1
+            ],
+            [
+                'label' => 'kl',
                 'unit_id' => 3,
                 'multiplier' => 1000000000,
                 'devider' => 1

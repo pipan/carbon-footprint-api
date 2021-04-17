@@ -5,7 +5,7 @@ namespace App\Evaluate\Evaluators;
 use App\Evaluate\Operations\AddOperation;
 use App\Evaluate\Operations\MultiplyOperation;
 
-class Operation implements Evaluator
+class OperationEvaluator implements Evaluator
 {
     private $operations;
 
@@ -17,7 +17,7 @@ class Operation implements Evaluator
         ];
     }
 
-    public function eval($schema)
+    public function eval($schema, Context $context)
     {
         $opIndex = $schema['value'] ?? $schema;
         return $this->operations[$opIndex];

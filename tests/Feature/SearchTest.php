@@ -25,8 +25,10 @@ class SearchTest extends TestCase
                         'id' => 1,
                         'name' => 'component #1',
                         'schema' => [
-                            "type" => 'stack',
-                            "items" => []
+                            'root' => [
+                                "type" => 'stack',
+                                "items" => []
+                            ]
                         ]
                     ]
                 ]

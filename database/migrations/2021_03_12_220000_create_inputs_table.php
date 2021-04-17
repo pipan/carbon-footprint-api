@@ -12,6 +12,7 @@ class CreateInputsTable extends Migration
             $table->id();
             $table->integer('model_id')->unsigned();
             $table->string('name');
+            $table->string('reference', 32);
             $table->integer('unit_id')->unsigned();
             $table->integer('default_value')->unsigned();
             $table->timestamps();

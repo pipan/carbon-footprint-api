@@ -9,7 +9,8 @@ class Input extends Model
     protected $fillable = [
         'name',
         'unit_id',
-        'default_value'
+        'default_value',
+        'reference'
     ];
 
     protected $hidden = [

@@ -2,9 +2,9 @@
 
 namespace App\Evaluate\Evaluators;
 
-class Constant implements Evaluator
+class ConstantEvaluator implements Evaluator
 {
-    public function eval($schema)
+    public function eval($schema, Context $context)
     {
         return floatval($this->getValue($schema));
     }

@@ -34,7 +34,7 @@ class ModelController extends Controller
         }
 
         foreach ($model['inputs'] as &$input) {
-            $input['value'] = $request->input($input['name'], $input['default_value']);
+            $input['value'] = $request->input($input['reference'], $input['default_value']);
         }
         return response($model);
     }

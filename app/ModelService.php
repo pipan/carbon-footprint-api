@@ -3,15 +3,16 @@
 namespace App;
 
 use App\Evaluate\EvalService;
-use App\Evaluate\Evaluators\Any;
+use App\Evaluate\Evaluators\Context;
+use App\Evaluate\Evaluators\GeneralEvaluator;
 
 class ModelService
 {
-    private $evalService;
+    private $evaluator;
 
-    public function __construct(EvalService $evalService)
+    public function __construct(GeneralEvaluator $evaluator)
     {
-        $this->evalService = $evalService;
+        $this->evaluator = $evaluator;
     }
 
     public function eval($model, $inputs = [])
@@ -22,14 +23,14 @@ class ModelService
         ];
         $evalInputs = [];
         foreach ($model['inputs'] as $input) {
-            $evalInputs[$input['name']] = $inputs[$input['name']] ?? $input['default_value'];
+            $evalInputs[$input['reference']] = $inputs[$input['reference']] ?? $input['default_value'];
         }
 
         foreach ($model['components'] as $component) {
-            $result['components'][$component['id']] = $this->evalService->eval([
-                'inputs' => $evalInputs,
-                'schema' => $component['schema']
-            ]);
+            $result['components'][$component['id']] = $this->evaluator->eval(
+                $component['schema']['root'],
+                new Context($evalInputs, $component['schema'])
+            );
             $result['eval'] += $result['components'][$component['id']];
         }
         
