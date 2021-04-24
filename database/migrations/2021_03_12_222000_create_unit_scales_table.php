@@ -12,6 +12,7 @@ class CreateUnitScalesTable extends Migration
             $table->id();
             $table->string('label');
             $table->integer('unit_id')->unsigned();
+            $table->integer('priority')->unsigned()->default(1);
             $table->integer('multiplier')->unsigned()->default(1);
             $table->integer('devider')->unsigned()->default(1);
             $table->timestamps();
