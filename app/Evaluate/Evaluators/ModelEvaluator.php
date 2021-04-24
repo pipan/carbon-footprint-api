@@ -22,7 +22,9 @@ class ModelEvaluator implements Evaluator
         foreach ($model['inputs'] as $input) {
             $modelInputs[$input['reference']] = $input['default_value'];
         }
-        foreach ($schema['inputs'] as $reference => $inputSchema) {
+        foreach ($schema['inputs'] as $reference => $inputSchemaRef) {
+            $explode = explode(":", $inputSchemaRef);
+            $inputSchema = $context->getReferenceSchema($explode[1]);
             if (isset($inputSchema['default']) && $inputSchema['default']) {
                 continue;
             }
