@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Evaluate\Operations;
+namespace App\Schema\Evaluate\Operations;
 
 class MultiplyOperation implements Operation
 {

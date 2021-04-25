@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Evaluate\Evaluators;
+namespace App\Schema\Evaluate\Evaluators;
 
-use App\Evaluate\Schema;
+use App\Schema\Evaluate\Schema;
 use App\Repository\ModelRepository;
 use Exception;
 

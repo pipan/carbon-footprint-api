@@ -2,9 +2,8 @@
 
 namespace App;
 
-use App\Evaluate\EvalService;
-use App\Evaluate\Evaluators\Context;
-use App\Evaluate\Evaluators\GeneralEvaluator;
+use App\Schema\Evaluate\Evaluators\Context;
+use App\Schema\Evaluate\Evaluators\GeneralEvaluator;
 
 class ModelService
 {

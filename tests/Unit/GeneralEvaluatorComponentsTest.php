@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Evaluate\Evaluators\Context;
-use App\Evaluate\Evaluators\GeneralEvaluator;
+use App\Schema\Evaluate\Evaluators\Context;
+use App\Schema\Evaluate\Evaluators\GeneralEvaluator;
 use PHPUnit\Framework\TestCase;
 use Tests\Mock\ModelRepositoryMock;
 

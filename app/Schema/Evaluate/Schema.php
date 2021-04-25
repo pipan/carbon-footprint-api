@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Evaluate;
+namespace App\Schema\Evaluate;
 
 class Schema
 {

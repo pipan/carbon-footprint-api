@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Evaluate\Evaluators;
+namespace App\Schema\Evaluate\Evaluators;
 
-use App\Evaluate\Operations\AddOperation;
-use App\Evaluate\Operations\DevideOperation;
-use App\Evaluate\Operations\MultiplyOperation;
+use App\Schema\Evaluate\Operations\AddOperation;
+use App\Schema\Evaluate\Operations\DevideOperation;
+use App\Schema\Evaluate\Operations\MultiplyOperation;
 
 class OperationEvaluator implements Evaluator
 {

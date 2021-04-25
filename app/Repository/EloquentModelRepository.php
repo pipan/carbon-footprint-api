@@ -8,11 +8,21 @@ class EloquentModelRepository implements ModelRepository
 {
     public function get($id)
     {
-        $model = Model::with(['inputs', 'components', 'inputs.unit'])
-            ->where('id', $id)
-            ->first();
-        if (!$model) {
+        $models = $this->getIn([$id]);
+        if (count($models) === 0) {
             return null;
+        }
+        
+        return $models[0];
+    }
+
+    public function getIn($ids)
+    {
+        $model = Model::with(['inputs', 'components', 'inputs.unit'])
+            ->whereIn('id', $ids)
+            ->get();
+        if (!$model) {
+            return [];
         }
         return $model->toArray();
     }

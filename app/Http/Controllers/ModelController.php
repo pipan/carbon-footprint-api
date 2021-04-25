@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\ModelService;
 use App\Repository\ModelRepository;
 use App\ResponseError;
+use App\Schema\Enricher\SchemaEnricher;
+use App\Schema\Minify\ModelMinifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,11 +15,15 @@ class ModelController extends Controller
 {
     private $modelRepository;
     private $modelService;
+    private $modelMinifier;
+    private $schemaEnricher;
 
-    public function __construct(ModelRepository $modelRepository, ModelService $modelService)
+    public function __construct(ModelRepository $modelRepository, ModelService $modelService, SchemaEnricher $schemaEnricher)
     {
         $this->modelRepository = $modelRepository;    
         $this->modelService = $modelService;
+        $this->modelMinifier = new ModelMinifier();
+        $this->schemaEnricher = $schemaEnricher;
     }
 
     public function get($id, Request $request)
@@ -31,6 +37,7 @@ class ModelController extends Controller
         $model['eval'] = $result['eval'];
         foreach ($model['components'] as &$component) {
             $component['eval'] = $result['components'][$component['id']];
+            $component['schema'] = $this->schemaEnricher->enrich($component['schema']);
         }
 
         foreach ($model['inputs'] as &$input) {
@@ -50,8 +57,10 @@ class ModelController extends Controller
         if ($validator->fails()) {
             return ResponseError::invalidRequest($validator->errors());
         }
+        $data = $request->all();
+        $data = $this->modelMinifier->minify($data);
         
-        $model = $this->modelRepository->insert($request->all());
+        $model = $this->modelRepository->insert($data);
         return response($model);
     }
 
@@ -78,7 +87,10 @@ class ModelController extends Controller
             return ResponseError::resourceNotFound();
         }
 
-        $model = $this->modelRepository->update($id, $request->all());
+        $data = $request->all();
+        $data = $this->modelMinifier->minify($data);
+
+        $model = $this->modelRepository->update($id, $data);
         return response($model);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Evaluate\Evaluators;
+namespace App\Schema\Evaluate\Evaluators;
 
 interface Evaluator
 {

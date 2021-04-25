@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Evaluate\Evaluators;
+namespace App\Schema\Evaluate\Evaluators;
 
-class ComponentEvaluator implements Evaluator
+use App\Repository\ModelRepository;
+
+class ModelEvaluator implements Evaluator
 {
+    private $modelRepository;
     private $evaluator;
 
-    public function __construct(Evaluator $evaluator)
+    public function __construct(Evaluator $evaluator, ModelRepository $modelRepository)
     {
+        $this->modelRepository = $modelRepository;
         $this->evaluator = $evaluator;
     }
 
@@ -18,8 +22,9 @@ class ComponentEvaluator implements Evaluator
         foreach ($model['inputs'] as $input) {
             $modelInputs[$input['reference']] = $input['default_value'];
         }
-        foreach ($schema['inputs'] as $reference => $inputSchema) {
-            if ($inputSchema['default']) {
+        foreach ($schema['inputs'] as $reference => $inputSchemaRef) {
+            $inputSchema = $context->getSchemaFollowReference($inputSchemaRef);
+            if (isset($inputSchema['default']) && $inputSchema['default']) {
                 continue;
             }
             $modelInputs[$reference] = $this->evaluator->eval($inputSchema, $context);

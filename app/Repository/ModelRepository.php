@@ -5,6 +5,7 @@ namespace App\Repository;
 interface ModelRepository
 {
     public function get($id);
+    public function getIn($ids);
     public function search($query, $options);
     public function searchCount($query, $options);
 

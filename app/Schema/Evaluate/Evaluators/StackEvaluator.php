@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Evaluate\Evaluators;
+namespace App\Schema\Evaluate\Evaluators;
 
-use App\Evaluate\Schema;
-use App\Repository\ModelRepository;
+use App\Schema\Evaluate\Schema;
 
 class StackEvaluator implements Evaluator
 {

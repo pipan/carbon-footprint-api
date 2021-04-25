@@ -112,4 +112,102 @@ class CreateTest extends TestCase
         $inserts = $this->modelRepository->getInserts();
         $this->assertCount(0, $inserts);
     }
+
+    public function testMinifyModelSchema()
+    {
+        $response = $this->post('/api/model', [
+            'name' => 'Test',
+            'description' => 'Some description',
+            'inputs' => [],
+            'components' => [
+                [
+                    'name' => 'test component',
+                    'schema' => [
+                        'root' => [
+                            'type' => 'stack',
+                            'items' => [
+                                "reference:0011"
+                            ]
+                        ],
+                        '0011' => [
+                            'type' => 'model',
+                            'id' => '1',
+                            'inputs' => [],
+                            'model' => 'something'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+
+        $inserts = $this->modelRepository->getInserts();
+        $this->assertEquals([
+            'root' => [
+                'type' => 'stack',
+                'items' => [
+                    "reference:0011"
+                ]
+            ],
+            '0011' => [
+                'type' => 'model',
+                'id' => '1',
+                'inputs' => []
+            ]
+        ], $inserts[0]['components'][0]['schema']);
+    }
+
+    public function testRemoveUnusedReferences()
+    {
+        $response = $this->post('/api/model', [
+            'name' => 'Test',
+            'description' => 'Some description',
+            'inputs' => [],
+            'components' => [
+                [
+                    'name' => 'test component',
+                    'schema' => [
+                        'root' => [
+                            'type' => 'stack',
+                            'items' => [
+                                "reference:0011"
+                            ]
+                        ],
+                        '0011' => [
+                            'type' => 'model',
+                            'id' => '1',
+                            'inputs' => [],
+                            'model' => 'something'
+                        ],
+                        '0012' => [
+                            'type' => 'constant',
+                            'value' => '2'
+                        ],
+                        '0013' => [
+                            'type' => 'constant',
+                            'value' => '23'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+
+        $inserts = $this->modelRepository->getInserts();
+        $this->assertEquals([
+            'root' => [
+                'type' => 'stack',
+                'items' => [
+                    "reference:0011"
+                ]
+            ],
+            '0011' => [
+                'type' => 'model',
+                'id' => '1',
+                'inputs' => []
+            ]
+        ], $inserts[0]['components'][0]['schema']);
+    }
 }
