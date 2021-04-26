@@ -12,6 +12,7 @@ class SchemaEnricher implements Enricher
     {
         $this->enrichers = [
             new ModelEnricher($modelRepository),
+            new ModelInputEnricher()
         ];
     }
 
