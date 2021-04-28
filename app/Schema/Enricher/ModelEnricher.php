@@ -22,17 +22,22 @@ class ModelEnricher implements Enricher
             if ($type != 'model') {
                 continue;
             }
-            $modelRefs[$value['id']] = $reference;
+            if (!isset($modelRefs[$value['id']])) {
+                $modelRefs[$value['id']] = [];
+            }
+            $modelRefs[$value['id']][] = $reference;
         }
         
         $models = $this->modelRepository->getIn(array_keys($modelRefs));
         foreach ($models as $model) {
             $id = $model['id'];
-            $reference = $modelRefs[$id];
-            $schema[$reference]['model'] = [
-                'name' => $model['name'],
-                'inputs' => $model['inputs']
-            ];
+            $references = $modelRefs[$id];
+            foreach ($references as $reference) {
+                $schema[$reference]['model'] = [
+                    'name' => $model['name'],
+                    'inputs' => $model['inputs']
+                ];
+            }
         }
 
         return $schema;

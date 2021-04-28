@@ -39,7 +39,11 @@ class ModelRepositoryMock implements ModelRepository
 
     public function getIn($ids)
     {
-        return $this->getResult ?? [];
+        $result = [];
+        foreach ($ids as $id) {
+            $result[] = $this->getResult[$id];
+        }
+        return $result;
     }
 
     public function search($query, $options)
