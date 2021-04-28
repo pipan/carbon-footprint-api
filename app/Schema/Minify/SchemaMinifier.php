@@ -16,7 +16,7 @@ class SchemaMinifier implements Minifier
         $this->refCleanup = new ReferenceCleanup();
         $this->minifiers = [
             'input' => new WhitelistMinifier(['type', 'parent', 'reference']),
-            'constant' => new WhitelistMinifier(['type', 'parent', 'value']),
+            'constant' => new WhitelistMinifier(['type', 'parent', 'value', 'unit']),
             'stack' => new WhitelistMinifier(['type', 'parent', 'items']),
             'model' => new WhitelistMinifier(['type', 'parent', 'id', 'inputs']),
             'model_input' => new WhitelistMinifier(['type', 'parent', 'default', 'items']),
