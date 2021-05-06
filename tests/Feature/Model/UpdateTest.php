@@ -91,4 +91,75 @@ class UpdateTest extends TestCase
         $updates = $this->modelRepository->getUpdates();
         $this->assertCount(0, $updates);
     }
+
+    public function testMinifyModelSchema()
+    {
+        $response = $this->put('/api/model/1', [
+            'name' => 'Test',
+            'description' => 'Some description',
+            'inputs' => [
+                [
+                    'id' => 1,
+                    'reference' => 'inxx'
+                ]
+            ],
+            'components' => [
+                [
+                    'name' => 'test component',
+                    'schema' => [
+                        'root' => [
+                            'type' => 'stack',
+                            'items' => [
+                                "reference:0011",
+                                "*",
+                                "reference:0012",
+                                "*",
+                                "reference:0013",
+                            ]
+                        ],
+                        '0011' => [
+                            'type' => 'model',
+                            'id' => '1',
+                            'inputs' => [],
+                            'model' => 'something'
+                        ],
+                        '0012' => [
+                            'type' => 'input',
+                            'reference' => 'inzz',
+                            'parent' => 'root'
+                        ],
+                        '0013' => [
+                            'type' => 'input',
+                            'reference' => 'inxx',
+                            'parent' => 'root'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+
+        $updates = $this->modelRepository->getUpdates();
+        $this->assertEquals([
+            'root' => [
+                'type' => 'stack',
+                'items' => [
+                    "reference:0011",
+                    "*",
+                    "reference:0013",
+                ]
+            ],
+            '0011' => [
+                'type' => 'model',
+                'id' => '1',
+                'inputs' => []
+            ],
+            '0013' => [
+                'type' => 'input',
+                'reference' => 'inxx',
+                'parent' => 'root'
+            ]
+        ], $updates[0]['model']['components'][0]['schema']);
+    }
 }
