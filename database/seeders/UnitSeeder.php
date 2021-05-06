@@ -10,15 +10,38 @@ class UnitSeeder extends Seeder
     public function run()
     {
         DB::table('units')->insert([
-            [ 'name' => 'Length' ],
-            [ 'name' => 'Weight' ],
-            [ 'name' => 'Volume' ],
-            [ 'name' => 'Density' ],
-            [ 'name' => 'Power' ],
-            [ 'name' => 'Time' ],
-            [ 'name' => 'Energy' ],
-            [ 'name' => 'Value' ],
-            [ 'name' => 'Carbon' ]
+            [
+                'id' => 1,
+                'name' => 'Length'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Weight'
+            ],
+            [
+                'id' => 3,
+                'name' => 'Volume'
+            ],
+            [
+                'id' => 4,
+                'name' => 'Density'
+            ],
+            [
+                'id' => 5,
+                'name' => 'Power'
+            ],
+            [
+                'id' => 6,
+                'name' => 'Time'
+            ],
+            [
+                'id' => 8,
+                'name' => 'Value'
+            ],
+            [
+                'id' => 9,
+                'name' => 'Carbon'
+            ]
         ]);
 
         DB::table('unit_scales')->insert([
@@ -166,7 +189,7 @@ class UnitSeeder extends Seeder
                 'label' => 'W',
                 'unit_id' => 5,
                 'priority' => 1,
-                'multiplier' => 10000,
+                'multiplier' => 1000,
                 'devider' => 1
             ],
             [
@@ -210,27 +233,6 @@ class UnitSeeder extends Seeder
                 'priority' => 1,
                 'multiplier' => 86400,
                 'devider' => 1
-            ],
-            [
-                'label' => 'mW/s',
-                'unit_id' => 7,
-                'priority' => 1,
-                'multiplier' => 1,
-                'devider' => 1
-            ],
-            [
-                'label' => 'W/h',
-                'unit_id' => 7,
-                'priority' => 1,
-                'multiplier' => 1000,
-                'devider' => 3600,
-            ],
-            [
-                'label' => 'kW/h',
-                'unit_id' => 7,
-                'priority' => 1,
-                'multiplier' => 1000000,
-                'devider' => 3600
             ],
             [
                 'label' => '',

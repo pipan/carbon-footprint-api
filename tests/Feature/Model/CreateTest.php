@@ -210,4 +210,162 @@ class CreateTest extends TestCase
             ]
         ], $inserts[0]['components'][0]['schema']);
     }
+
+    public function testRemoveInvalidInputReferencesSingleInStack()
+    {
+        $response = $this->post('/api/model', [
+            'name' => 'Test',
+            'description' => 'Some description',
+            'inputs' => [],
+            'components' => [
+                [
+                    'name' => 'test component',
+                    'schema' => [
+                        'root' => [
+                            'type' => 'stack',
+                            'items' => [
+                                "reference:0012"
+                            ]
+                        ],
+                        '0011' => [
+                            'type' => 'model',
+                            'id' => '1',
+                            'inputs' => [],
+                            'model' => 'something'
+                        ],
+                        '0012' => [
+                            'type' => 'input',
+                            'reference' => 'inxx',
+                            'parent' => 'root'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+
+        $inserts = $this->modelRepository->getInserts();
+        $this->assertEquals([
+            'root' => [
+                'type' => 'stack',
+                'items' => []
+            ]
+        ], $inserts[0]['components'][0]['schema']);
+    }
+
+    public function testRemoveInvalidInputReferencesTwoInStack()
+    {
+        $response = $this->post('/api/model', [
+            'name' => 'Test',
+            'description' => 'Some description',
+            'inputs' => [],
+            'components' => [
+                [
+                    'name' => 'test component',
+                    'schema' => [
+                        'root' => [
+                            'type' => 'stack',
+                            'items' => [
+                                "reference:0011",
+                                "*",
+                                "reference:0012"
+                            ]
+                        ],
+                        '0011' => [
+                            'type' => 'model',
+                            'id' => '1',
+                            'inputs' => []
+                        ],
+                        '0012' => [
+                            'type' => 'input',
+                            'reference' => 'inxx',
+                            'parent' => 'root'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+
+        $inserts = $this->modelRepository->getInserts();
+        $this->assertEquals([
+            'root' => [
+                'type' => 'stack',
+                'items' => [
+                    "reference:0011"
+                ]
+            ],
+            '0011' => [
+                'type' => 'model',
+                'id' => '1',
+                'inputs' => []
+            ]
+        ], $inserts[0]['components'][0]['schema']);
+    }
+
+    public function testRemoveValidInputReferencesTwoInStack()
+    {
+        $response = $this->post('/api/model', [
+            'name' => 'Test',
+            'description' => 'Some description',
+            'inputs' => [
+                [
+                    "id" => 1,
+                    'reference' => 'inxx',
+                    'default_value' => 100
+                ]
+            ],
+            'components' => [
+                [
+                    'name' => 'test component',
+                    'schema' => [
+                        'root' => [
+                            'type' => 'stack',
+                            'items' => [
+                                "reference:0011",
+                                "*",
+                                "reference:0012"
+                            ]
+                        ],
+                        '0011' => [
+                            'type' => 'model',
+                            'id' => '1',
+                            'inputs' => []
+                        ],
+                        '0012' => [
+                            'type' => 'input',
+                            'reference' => 'inxx',
+                            'parent' => 'root'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(200);
+
+        $inserts = $this->modelRepository->getInserts();
+        $this->assertEquals([
+            'root' => [
+                'type' => 'stack',
+                'items' => [
+                    "reference:0011",
+                    "*",
+                    "reference:0012"
+                ]
+            ],
+            '0011' => [
+                'type' => 'model',
+                'id' => '1',
+                'inputs' => []
+            ],
+            '0012' => [
+                'type' => 'input',
+                'reference' => 'inxx',
+                'parent' => 'root'
+            ]
+        ], $inserts[0]['components'][0]['schema']);
+    }
 }
