@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/info', InfoController::class);
 
 Route::get('/unit', [UnitController::class, 'index']);
 

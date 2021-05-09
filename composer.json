@@ -4,6 +4,7 @@
     "description": "Carbon Footprint",
     "keywords": [],
     "license": "MIT",
+    "version": "0.2.1",
     "require": {
         "php": "^7.3|^8.0",
         "fideloper/proxy": "^4.4",
